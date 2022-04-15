@@ -1,25 +1,19 @@
 import React from "react";
+import Button from "../../Button";
 
-export default function index() {
+const StudentItem = ({studentItem}) => {
   return (
     <tr>
-      <td>1</td>
-      <td>Phan Thế Viễn</td>
-      <td>2</td>
-      <td>Mẫu giáo nhỡ</td>
-      <td>Trường mầm non Hải Phú</td>
+      <td>{studentItem.id + 1}</td>
+      <td>{studentItem.name}</td>
+      <td>{studentItem.age}</td>
+      <td>{studentItem.class}</td>
+      <td>{studentItem.school}</td>
       <td>
-        <a href="#editEmployeeModal" className="edit" data-toggle="modal">
-          <i className="material-icons" data-toggle="tooltip" title="Edit">
-            
-          </i>
-        </a>
-        <a href="#deleteEmployeeModal" className="delete" data-toggle="modal">
-          <i className="material-icons" data-toggle="tooltip" title="Delete">
-            
-          </i>
-        </a>
+        <Button color={"warning"} name={"Sửa"} />
+        <Button color={"danger"} name={"Xoá"} />
       </td>
     </tr>
   );
-}
+};
+export default StudentItem;

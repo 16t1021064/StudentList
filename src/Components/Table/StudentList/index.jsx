@@ -1,6 +1,7 @@
 import React from "react";
-import StudentItem from "../StudentItem"
-export default function index() {
+import StudentItem from "../StudentItem";
+const StudentList = ({studentList }) => {
+  // const [pages] = useState(Math.round(studentList.length / dataLimit));
   return (
     <table className="table table-striped table-hover">
       <thead>
@@ -14,12 +15,12 @@ export default function index() {
         </tr>
       </thead>
       <tbody>
-        <StudentItem />
-        <StudentItem />
-        <StudentItem />
-        <StudentItem />
-        <StudentItem />
+        {studentList.map(studentItem => {
+          return <StudentItem studentItem={studentItem} key={studentItem.id}/>;
+        })}
       </tbody>
     </table>
   );
-}
+};
+
+export default StudentList;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.module.scss"
-export default function index() {
+const Pagination=()=> {
   return (
     <ul className="pagination">
       <li className="page-item">
@@ -41,3 +41,4 @@ export default function index() {
     </ul>
   );
 }
+export default Pagination;

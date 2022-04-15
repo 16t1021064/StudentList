@@ -1,13 +1,9 @@
 import React from "react";
 
-export default function index() {
+const SearchBox = () => {
   return (
     <div className="input-group mb-3">
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Nhập từ khoá"
-      />
+      <input type="text" className="form-control" placeholder="Nhập từ khoá" />
       <div className="input-group-append">
         <span className="input-group-text" id="basic-addon2">
           Tìm kiếm
@@ -15,4 +11,5 @@ export default function index() {
       </div>
     </div>
   );
-}
+};
+export default SearchBox;
