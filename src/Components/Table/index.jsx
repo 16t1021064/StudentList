@@ -43,8 +43,8 @@ const Table = () => {
   };
   const addStudent = (student) => {
     console.log(student);
-    // const list = studentList.concat(student);
-    // setStudentList(list);
+    const list = studentList.concat(student);
+    setStudentList(list);
   };
   const renderForm = () => {
     if (modalStatus) {

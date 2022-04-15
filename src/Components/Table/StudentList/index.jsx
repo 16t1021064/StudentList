@@ -2,6 +2,7 @@ import React from "react";
 import StudentItem from "../StudentItem";
 const StudentList = ({studentList }) => {
   // const [pages] = useState(Math.round(studentList.length / dataLimit));
+  const pageCurrent = 0;
   return (
     <table className="table table-striped table-hover">
       <thead>
@@ -16,7 +17,7 @@ const StudentList = ({studentList }) => {
       </thead>
       <tbody>
         {studentList.map(studentItem => {
-          return <StudentItem studentItem={studentItem} key={studentItem.id}/>;
+          return <StudentItem studentItem={studentItem} key={studentItem.id} pageCurrent={pageCurrent}/>;
         })}
       </tbody>
     </table>

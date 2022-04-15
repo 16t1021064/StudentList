@@ -9,7 +9,7 @@ const Modal = (props) => {
   const [schoolName, setSchoolName] = useState("");
   const getStudentInfo = (e) => {
     e.preventDefault();
-    props.addStudent({id : this.generateID(), name, age, className, schoolName });
+    props.addStudent({id : Math.random(),name, age, className, schoolName });
   };
   return (
     <form>
