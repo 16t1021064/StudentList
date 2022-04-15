@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "../../Button";
 
-const StudentItem = ({studentItem}) => {
+const StudentItem = ({studentItem, pageCurrent}) => {
   return (
     <tr>
-      <td>{studentItem.id + 1}</td>
+      <td>{pageCurrent}</td>
       <td>{studentItem.name}</td>
       <td>{studentItem.age}</td>
-      <td>{studentItem.class}</td>
-      <td>{studentItem.school}</td>
+      <td>{studentItem.className}</td>
+      <td>{studentItem.schoolName}</td>
       <td>
         <Button color={"warning"} name={"Sửa"} />
         <Button color={"danger"} name={"Xoá"} />

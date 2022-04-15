@@ -1,15 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import Button from "../Button";
-
-const Modal = (props) => {
+import { nanoid } from "nanoid";
+const Modal = ({addStudent, setFormStatus}) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [className, setClassName] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const getStudentInfo = (e) => {
     e.preventDefault();
-    props.addStudent({id : Math.random(),name, age, className, schoolName });
+    addStudent({id : nanoid(),name, age, className, schoolName });
+    setFormStatus(false);
   };
   return (
     <form>

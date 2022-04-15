@@ -1,8 +1,8 @@
 import React from "react";
 import StudentItem from "../StudentItem";
-const StudentList = ({studentList }) => {
+const StudentList = ({ studentList }) => {
   // const [pages] = useState(Math.round(studentList.length / dataLimit));
-  const pageCurrent = 0;
+  let pageCurrent = 0;
   return (
     <table className="table table-striped table-hover">
       <thead>
@@ -16,8 +16,15 @@ const StudentList = ({studentList }) => {
         </tr>
       </thead>
       <tbody>
-        {studentList.map(studentItem => {
-          return <StudentItem studentItem={studentItem} key={studentItem.id} pageCurrent={pageCurrent}/>;
+        {studentList.map((studentItem) => {
+          pageCurrent = ++pageCurrent;
+          return (
+            <StudentItem
+              studentItem={studentItem}
+              key={studentItem.id}
+              pageCurrent={pageCurrent}
+            />
+          );
         })}
       </tbody>
     </table>
