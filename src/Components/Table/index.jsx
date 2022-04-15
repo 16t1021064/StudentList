@@ -7,6 +7,7 @@ import "./index.module.scss";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import Modal from "../Modal";
+import { nanoid } from "nanoid";
 const Table = () => {
   const [studentList, setStudentList] = useState([
     {

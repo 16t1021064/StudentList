@@ -1,7 +1,7 @@
+import { nanoid } from "nanoid";
 import React from "react";
 import { useState } from "react";
 import Button from "../Button";
-import { nanoid } from "nanoid";
 import { useEffect } from "react";
 const Modal = ({ addStudent, setFormStatus }) => {
   const [name, setName] = useState("");
@@ -51,9 +51,6 @@ const Modal = ({ addStudent, setFormStatus }) => {
   };
   return (
     <form>
-
-
-
       <div className="modal-header">
         <h4 className="modal-title">
           <b>Thêm học sinh</b>
