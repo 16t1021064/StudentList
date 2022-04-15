@@ -6,31 +6,32 @@ import SearchBox from "./SearchBox";
 import "./index.module.scss";
 import { useState } from "react";
 import Modal from "../Modal";
+import { nanoid } from "nanoid";
 const Table = () => {
   const [studentList, setStudentList] = useState([
     {
-      id: 0,
+      id: nanoid(),
       name: "Huy",
       age: 2,
       className: "Mẫu giáo nhở",
       schoolName: "Mầm non Hải Phú",
     },
     {
-      id: 1,
+      id: nanoid(),
       name: "Viễn",
       age: 2,
       className: "Mẫu giáo nhở",
       schoolName: "Mầm non Hải Phú",
     },
     {
-      id: 2,
+      id: nanoid(),
       name: "Hải",
       age: 2,
       className: "Mẫu giáo nhở",
       schoolName: "Mầm non Hải Phú",
     },
     {
-      id: 3,
+      id: nanoid(),
       name: "Nghĩa",
       age: 2,
       className: "Mẫu giáo nhở",
@@ -43,22 +44,14 @@ const Table = () => {
   };
   const addStudent = (student) => {
     console.log(student);
-    // const list = studentList.concat(student);
-    // setStudentList(list);
-  };
-  const renderForm = () => {
-    if (modalStatus) {
-      return <Modal modalStatus={modalStatus} addStudent={addStudent} />;
-    } else {
-      return <></>;
-    }
+    setStudentList([...studentList, student]);
   };
   return (
     <div className="container-xl">
       <div className="table-reponsive">
         <div className="table-wrapper">
           <Title setFormStatus={setFormStatus} />
-          {renderForm()}
+          {modalStatus && <Modal addStudent={addStudent} />}
           <SearchBox />
           <StudentList studentList={studentList} />
           <Clearfix />;
