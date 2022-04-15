@@ -1,15 +1,22 @@
+import { nanoid } from "nanoid";
 import React from "react";
 import { useState } from "react";
 import Button from "../Button";
 
-const Modal = (props) => {
+const Modal = ({ addStudent }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [className, setClassName] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const getStudentInfo = (e) => {
     e.preventDefault();
-    props.addStudent({id : this.generateID(), name, age, className, schoolName });
+    addStudent({
+      id: nanoid(),
+      name,
+      age,
+      className,
+      schoolName,
+    });
   };
   return (
     <form>
@@ -66,11 +73,7 @@ const Modal = (props) => {
       </div>
       <div className="modal-footer">
         <Button color={"default"} name={"Huỷ"} />
-        <Button
-          color={"success"}
-          name={"Đồng ý"}
-          onClick={getStudentInfo}
-        />
+        <Button color={"success"} name={"Đồng ý"} onClick={getStudentInfo} />
       </div>
     </form>
   );
