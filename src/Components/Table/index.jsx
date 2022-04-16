@@ -53,12 +53,22 @@ const Table = () => {
   };
   const editStudent = (student) => {
     const tmp = [...studentList];
-    const index = tmp.findIndex(ele => ele.id === student.id);
-    if(index < 0) {
+    const index = tmp.findIndex((ele) => ele.id === student.id);
+    if (index < 0) {
       return;
     }
 
     tmp[index] = student;
+    setStudentList(tmp);
+  };
+  const deleteStudent = (id) => {
+    const tmp = [...studentList];
+    const index = tmp.findIndex((ele) => ele.id === id);
+    if (index < 0) {
+      return;
+    }
+
+    tmp.splice(index, 1);
     setStudentList(tmp);
   };
   const getCurrentStudent = (id) => {
@@ -101,6 +111,7 @@ const Table = () => {
           <StudentList
             studentList={studentList}
             getCurrentStudent={getCurrentStudent}
+            deleteStudent={deleteStudent}
           />
           <Clearfix />;
         </div>
