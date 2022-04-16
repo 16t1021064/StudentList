@@ -7,7 +7,6 @@ import "./index.module.scss";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import Modal from "../Modal";
-import { nanoid } from "nanoid";
 const Table = () => {
   const [studentList, setStudentList] = useState([
     {
@@ -41,7 +40,7 @@ const Table = () => {
   ]);
   const [modalStatus, setModalStatus] = useState(false);
   const setFormStatus = (status) => {
-    setModalStatus(!modalStatus||status);
+    setModalStatus(!modalStatus || status);
   };
   const addStudent = (student) => {
     setStudentList([...studentList, student]);
@@ -51,7 +50,9 @@ const Table = () => {
       <div className="table-reponsive">
         <div className="table-wrapper">
           <Title setFormStatus={setFormStatus} />
-          {modalStatus && <Modal addStudent={addStudent} setFormStatus={setFormStatus}/>}
+          {modalStatus && (
+            <Modal addStudent={addStudent} setFormStatus={setFormStatus} />
+          )}
           <SearchBox />
           <StudentList studentList={studentList} />
           <Clearfix />;

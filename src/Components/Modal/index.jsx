@@ -1,44 +1,49 @@
 import { nanoid } from "nanoid";
-import React from "react";
+import React, { useMemo } from "react";
 import { useState } from "react";
 import Button from "../Button";
 import { useEffect } from "react";
+import ErrorMessage from "../ErrorMessage";
 const Modal = ({ addStudent, setFormStatus }) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [className, setClassName] = useState("");
   const [schoolName, setSchoolName] = useState("");
   const [errorMessage, setErrorMessage] = useState([]);
+
   const getStudentInfo = (e) => {
     e.preventDefault();
-    // addStudent({ id: nanoid(), name, age, className, schoolName });
-    // setFormStatus(false);
-    validateAll();
+    if (validateAll()) {
+      addStudent({ id: nanoid(), name, age, className, schoolName });
+      setFormStatus(false);
+    }
   };
 
   const validateAll = () => {
     let errors = [];
     if (isEmpty(name)) {
-      errors.push("vui lòng nhập tên!");
+      errors.push("•Vui lòng nhập tên!");
     }
     if (isEmpty(age)) {
-      errors.push("Vui lòng nhập tuổi!");
+      errors.push("•Vui lòng nhập tuổi!");
+    } else if (!isAge(age)) {
+      errors.push("•Vui lòng nhập tuổi hợp lệ!");
     }
     if (isEmpty(className)) {
-      errors.push("Vui lòng nhập lớp!");
+      errors.push("•Vui lòng nhập lớp!");
     }
     if (isEmpty(schoolName)) {
-      errors.push("Vui lòng nhập trường!");
+      errors.push("•Vui lòng nhập trường!");
     }
     setErrorMessage(errors);
+    if (errors.length === 0) {
+      return true;
+    }
+    return false;
   };
 
-  useEffect(() => {
-    console.log(errorMessage);
-  }, [errorMessage]);
-
   const isAge = (age) => {
-    if (age > 0) {
+    if (parseInt(age) >= 0) {
       return true;
     }
     return false;
@@ -56,6 +61,7 @@ const Modal = ({ addStudent, setFormStatus }) => {
           <b>Thêm học sinh</b>
         </h4>
       </div>
+      {errorMessage.map((msg, pos) => <ErrorMessage key={pos} message={msg}></ErrorMessage>)}
       <div className="modal-body">
         <div className="form-group">
           <label>Tên</label>
