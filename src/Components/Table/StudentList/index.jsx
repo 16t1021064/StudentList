@@ -1,6 +1,6 @@
 import React from "react";
 import StudentItem from "../StudentItem";
-const StudentList = ({ studentList }) => {
+const StudentList = ({ studentList, getCurrentStudent }) => {
   // const [pages] = useState(Math.round(studentList.length / dataLimit));
   let pageCurrent = 0;
   return (
@@ -23,6 +23,7 @@ const StudentList = ({ studentList }) => {
               studentItem={studentItem}
               key={studentItem.id}
               pageCurrent={pageCurrent}
+              getCurrentStudent={getCurrentStudent}
             />
           );
         })}

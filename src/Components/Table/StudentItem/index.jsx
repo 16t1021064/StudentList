@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../Button";
 
-const StudentItem = ({studentItem, pageCurrent}) => {
+const StudentItem = ({studentItem, pageCurrent, getCurrentStudent}) => {
   return (
     <tr>
       <td>{pageCurrent}</td>
@@ -10,7 +10,7 @@ const StudentItem = ({studentItem, pageCurrent}) => {
       <td>{studentItem.className}</td>
       <td>{studentItem.schoolName}</td>
       <td>
-        <Button color={"warning"} name={"Sửa"} />
+        <Button color={"warning"} name={"Sửa"} onClick={()=>{getCurrentStudent(studentItem.id)}}/>
         <Button color={"danger"} name={"Xoá"} />
       </td>
     </tr>
