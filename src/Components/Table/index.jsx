@@ -77,7 +77,7 @@ const Table = () => {
     setFormStatus(true);
   };
   const renderForm = () => {
-    if (currentStudent === null) {
+    if (currentStudent === null || currentStudent === undefined) {
       return (
         modalStatus && (
           <Modal
