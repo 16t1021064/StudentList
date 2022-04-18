@@ -2,7 +2,7 @@ import React from "react";
 import { useRef } from "react";
 
 const SearchBox = ({ searchByName }) => {
-  const searchValueRef = useRef("");
+  const searchValueRef = useRef(null);
   const searchFunc = () => {
     setTimeout(() => {
       searchByName(searchValueRef.current.value);

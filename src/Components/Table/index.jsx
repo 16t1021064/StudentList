@@ -7,6 +7,7 @@ import "./index.module.scss";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import Modal from "../Modal";
+import { useMemo } from "react";
 const Table = () => {
   const [studentList, setStudentList] = useState([
     {
@@ -38,10 +39,25 @@ const Table = () => {
       schoolName: "Mầm non Hải Phú",
     },
   ]);
+
   const [modalStatus, setModalStatus] = useState(false);
+
   const [currentStudent, setCurrentStudent] = useState(null);
-  const [searchList, setSearchList] = useState([]);
+
   const [searchValue, setSearchValue] = useState(null);
+
+  const list = useMemo(() => {
+    let tmp = [...studentList];
+    if (!searchValue) {
+      return tmp;
+    }
+
+    return tmp.filter(
+      (student) =>
+        student.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+    );
+  }, [searchValue, studentList]);
+
   const setFormStatus = (status) => {
     if (status === undefined) {
       setModalStatus(!modalStatus);
@@ -53,6 +69,7 @@ const Table = () => {
   const addStudent = (student) => {
     setStudentList([...studentList, student]);
   };
+
   const editStudent = (student) => {
     const tmp = [...studentList];
     const index = tmp.findIndex((ele) => ele.id === student.id);
@@ -63,6 +80,7 @@ const Table = () => {
     tmp[index] = student;
     setStudentList(tmp);
   };
+
   const deleteStudent = (id) => {
     const tmp = [...studentList];
     const index = tmp.findIndex((ele) => ele.id === id);
@@ -73,24 +91,13 @@ const Table = () => {
     tmp.splice(index, 1);
     setStudentList(tmp);
   };
-  const searchByName = (value) => {
-    let listTmp = [...studentList];
-    if (value !== "" && value !== null && value !== undefined) {
-      listTmp = listTmp.filter(
-        (student) =>
-          student.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
-      );
-      setSearchList(listTmp);
-      setSearchValue(value);
-    } else {
-      setSearchList([...studentList]);
-    }
-  };
+
   const getCurrentStudent = (id) => {
     let student = studentList.find((element) => element.id === id);
     setCurrentStudent(student);
     setFormStatus(true);
   };
+
   const renderForm = () => {
     if (currentStudent === null || currentStudent === undefined) {
       return (
@@ -116,47 +123,18 @@ const Table = () => {
       );
     }
   };
-  const renderList = () => {
-    if (searchList.length === 0) {
-      if (
-        searchValue !== "" &&
-        searchValue !== null &&
-        searchValue !== undefined
-      ) {
-        return (
-          <StudentList
-            studentList={searchList}
-            getCurrentStudent={getCurrentStudent}
-            deleteStudent={deleteStudent}
-          />
-        );
-      } else {
-        return (
-          <StudentList
-            studentList={studentList}
-            getCurrentStudent={getCurrentStudent}
-            deleteStudent={deleteStudent}
-          />
-        );
-      }
-    } else {
-      return (
-        <StudentList
-          studentList={studentList}
-          getCurrentStudent={getCurrentStudent}
-          deleteStudent={deleteStudent}
-        />
-      );
-    }
-  };
   return (
     <div className="container-xl">
       <div className="table-reponsive">
         <div className="table-wrapper">
           <Title setFormStatus={setFormStatus} />
           {renderForm()}
-          <SearchBox searchByName={searchByName} />
-          {renderList()}
+          <SearchBox searchByName={setSearchValue} />
+          <StudentList
+            studentList={list}
+            getCurrentStudent={getCurrentStudent}
+            deleteStudent={deleteStudent}
+          />
           <Clearfix />;
         </div>
       </div>
