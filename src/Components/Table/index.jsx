@@ -40,6 +40,8 @@ const Table = () => {
   ]);
   const [modalStatus, setModalStatus] = useState(false);
   const [currentStudent, setCurrentStudent] = useState(null);
+  const [searchList, setSearchList] = useState([]);
+  const [searchValue, setSearchValue] = useState(null);
   const setFormStatus = (status) => {
     if (status === undefined) {
       setModalStatus(!modalStatus);
@@ -71,6 +73,19 @@ const Table = () => {
     tmp.splice(index, 1);
     setStudentList(tmp);
   };
+  const searchByName = (value) => {
+    let listTmp = [...studentList];
+    if (value !== "" && value !== null && value !== undefined) {
+      listTmp = listTmp.filter(
+        (student) =>
+          student.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
+      );
+      setSearchList(listTmp);
+      setSearchValue(value);
+    } else {
+      setSearchList([...studentList]);
+    }
+  };
   const getCurrentStudent = (id) => {
     let student = studentList.find((element) => element.id === id);
     setCurrentStudent(student);
@@ -101,18 +116,47 @@ const Table = () => {
       );
     }
   };
+  const renderList = () => {
+    if (searchList.length === 0) {
+      if (
+        searchValue !== "" &&
+        searchValue !== null &&
+        searchValue !== undefined
+      ) {
+        return (
+          <StudentList
+            studentList={searchList}
+            getCurrentStudent={getCurrentStudent}
+            deleteStudent={deleteStudent}
+          />
+        );
+      } else {
+        return (
+          <StudentList
+            studentList={studentList}
+            getCurrentStudent={getCurrentStudent}
+            deleteStudent={deleteStudent}
+          />
+        );
+      }
+    } else {
+      return (
+        <StudentList
+          studentList={studentList}
+          getCurrentStudent={getCurrentStudent}
+          deleteStudent={deleteStudent}
+        />
+      );
+    }
+  };
   return (
     <div className="container-xl">
       <div className="table-reponsive">
         <div className="table-wrapper">
           <Title setFormStatus={setFormStatus} />
           {renderForm()}
-          <SearchBox />
-          <StudentList
-            studentList={studentList}
-            getCurrentStudent={getCurrentStudent}
-            deleteStudent={deleteStudent}
-          />
+          <SearchBox searchByName={searchByName} />
+          {renderList()}
           <Clearfix />;
         </div>
       </div>
