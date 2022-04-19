@@ -1,13 +1,13 @@
 import React from "react";
 import Title from "./Title";
 import StudentList from "./StudentList";
-import Clearfix from "./Clearfix";
 import SearchBox from "./SearchBox";
 import "./index.module.scss";
 import { nanoid } from "nanoid";
 import { useState } from "react";
 import Modal from "../Modal";
 import { useMemo } from "react";
+import Pagination from "./Pagination";
 const Table = () => {
   // const [studentList, setStudentList] = useState([
   //   {
@@ -71,15 +71,13 @@ const Table = () => {
           student.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
       );
     }
-
+    const totalPages = Math.ceil(tmp.length / paginationData.limit);
     // paginate
     const startIndex =
       paginationData.current * paginationData.limit - paginationData.limit;
     const endIndex = startIndex + paginationData.limit;
 
     tmp = tmp.slice(startIndex, endIndex);
-
-    const totalPages = Math.ceil(studentList.length / paginationData.limit);
 
     setPaginationData({
       ...paginationData,
@@ -167,9 +165,10 @@ const Table = () => {
             getCurrentStudent={getCurrentStudent}
             deleteStudent={deleteStudent}
           />
-          <Clearfix
+          <Pagination
             paginationData={paginationData}
             setPaginationData={setPaginationData}
+            searchValue={searchValue}
           />
         </div>
       </div>
