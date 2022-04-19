@@ -1,56 +1,60 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "../../../Button";
 import "./index.module.scss";
-const Pagination = ({ studentList, pageLimit, studentLimit }) => {
-  // const [pages] = useState(Math.round(studentList.length / studentLimit)||5);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const goToNextPage = () => {
-    setCurrentPage((page) => page + 1);
+const Pagination = ({ paginationData, setPaginationData }) => {
+  const setPage = (newPage) => {
+    setPaginationData({
+      ...paginationData,
+      current: newPage,
+    });
   };
 
-  const goToPreviousPage = () => {
-    setCurrentPage((page) => page - 1);
-  };
-
-  const changePage = (e) => {
-    const pageNumber = Number(e.target.value);
-    setCurrentPage(pageNumber);
-  };
-
-  const getPaginatedStudent = () => {
-    const startIndex = currentPage * studentLimit - studentLimit;
-    const endIndex = startIndex + studentLimit;
-    return studentList.slice(startIndex, endIndex);
-  };
-
-  const getPaginatedGroup = () => {
-    let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
-    return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
-  };
   return (
     <ul className="pagination">
       <li className="page-item">
         <Button
-          color={`default page-link${currentPage === 1 ? "disabled" : ""}`}
+          color={`default page-link ${
+            paginationData.current === 1 ? "disabled" : ""
+          }`}
           name={"Previous"}
-          onClick={goToPreviousPage}
+          onClick={() => {
+            setPage(paginationData.current - 1);
+          }}
+          disabled={paginationData.current === 1}
         />
       </li>
-      {getPaginatedGroup().map((item, index) => {
-        <li className="page-item" key={index}>
-          <Button
-            name={"Next"}
-            onClick={changePage}
-            color={`default page-link ${currentPage === item ? "active" : null}`}
-          />
-        </li>;
+
+      {[...Array(paginationData.totalPages).keys()].map((item) => {
+        return (
+          <li
+            className={`page-item ${
+              paginationData.current === item + 1 ? "active" : ""
+            }`}
+            key={item}
+          >
+            <Button
+              name={item + 1}
+              onClick={() => {
+                setPage(item + 1);
+              }}
+              color={`default page-link`}
+            />
+          </li>
+        );
       })}
+
       <li className="page-item">
         <Button
-          color={`default page-link${currentPage === 5 ? "disabled" : ""}`}
+          color={`default page-link ${
+            paginationData.current === paginationData.totalPages
+              ? "disabled"
+              : ""
+          }`}
           name={"Next"}
-          onClick={goToNextPage}
+          onClick={() => {
+            setPage(paginationData.current + 1);
+          }}
+          disabled={paginationData.current === paginationData.totalPages}
         />
       </li>
     </ul>

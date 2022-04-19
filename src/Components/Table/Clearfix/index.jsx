@@ -1,11 +1,9 @@
 import React from "react";
-import HintText from "./HintText";
 import Pagination from "./Pagination";
-const Clearfix = () => {
+const Clearfix = ({ paginationData , setPaginationData}) => {
   return (
     <div className="clearfix">
-      <HintText />
-      <Pagination />
+      <Pagination paginationData={paginationData} setPaginationData={setPaginationData}/>
     </div>
   );
 };

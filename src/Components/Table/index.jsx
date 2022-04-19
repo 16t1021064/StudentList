@@ -9,36 +9,45 @@ import { useState } from "react";
 import Modal from "../Modal";
 import { useMemo } from "react";
 const Table = () => {
-  const [studentList, setStudentList] = useState([
-    {
+  // const [studentList, setStudentList] = useState([
+  //   {
+  //     id: nanoid(),
+  //     name: "Huy",
+  //     age: 2,
+  //     className: "Mẫu giáo nhở",
+  //     schoolName: "Mầm non Hải Phú",
+  //   },
+  //   {
+  //     id: nanoid(),
+  //     name: "Viễn",
+  //     age: 2,
+  //     className: "Mẫu giáo nhở",
+  //     schoolName: "Mầm non Hải Phú",
+  //   },
+  //   {
+  //     id: nanoid(),
+  //     name: "Hải",
+  //     age: 2,
+  //     className: "Mẫu giáo nhở",
+  //     schoolName: "Mầm non Hải Phú",
+  //   },
+  //   {
+  //     id: nanoid(),
+  //     name: "Nghĩa",
+  //     age: 2,
+  //     className: "Mẫu giáo nhở",
+  //     schoolName: "Mầm non Hải Phú",
+  //   },
+  // ]);
+  const [studentList, setStudentList] = useState(
+    [...Array(20).keys()].map((num) => ({
       id: nanoid(),
-      name: "Huy",
+      name: "Huy " + num,
       age: 2,
       className: "Mẫu giáo nhở",
       schoolName: "Mầm non Hải Phú",
-    },
-    {
-      id: nanoid(),
-      name: "Viễn",
-      age: 2,
-      className: "Mẫu giáo nhở",
-      schoolName: "Mầm non Hải Phú",
-    },
-    {
-      id: nanoid(),
-      name: "Hải",
-      age: 2,
-      className: "Mẫu giáo nhở",
-      schoolName: "Mầm non Hải Phú",
-    },
-    {
-      id: nanoid(),
-      name: "Nghĩa",
-      age: 2,
-      className: "Mẫu giáo nhở",
-      schoolName: "Mầm non Hải Phú",
-    },
-  ]);
+    }))
+  );
 
   const [modalStatus, setModalStatus] = useState(false);
 
@@ -46,17 +55,40 @@ const Table = () => {
 
   const [searchValue, setSearchValue] = useState(null);
 
+  const [paginationData, setPaginationData] = useState({
+    current: 1,
+    limit: 5,
+    totalPages: 0,
+  });
+
   const list = useMemo(() => {
     let tmp = [...studentList];
-    if (!searchValue) {
-      return tmp;
+
+    // search
+    if (searchValue) {
+      tmp = tmp.filter(
+        (student) =>
+          student.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
+      );
     }
 
-    return tmp.filter(
-      (student) =>
-        student.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
-    );
-  }, [searchValue, studentList]);
+    // paginate
+    const startIndex =
+      paginationData.current * paginationData.limit - paginationData.limit;
+    const endIndex = startIndex + paginationData.limit;
+
+    tmp = tmp.slice(startIndex, endIndex);
+
+    const totalPages = Math.ceil(studentList.length / paginationData.limit);
+
+    setPaginationData({
+      ...paginationData,
+      totalPages,
+    });
+
+    return tmp;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue, studentList, paginationData.current]);
 
   const setFormStatus = (status) => {
     if (status === undefined) {
@@ -135,7 +167,10 @@ const Table = () => {
             getCurrentStudent={getCurrentStudent}
             deleteStudent={deleteStudent}
           />
-          <Clearfix />;
+          <Clearfix
+            paginationData={paginationData}
+            setPaginationData={setPaginationData}
+          />
         </div>
       </div>
     </div>
