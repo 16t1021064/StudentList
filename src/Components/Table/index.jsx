@@ -9,38 +9,8 @@ import Modal from "../Modal";
 import { useMemo } from "react";
 import Pagination from "./Pagination";
 const Table = () => {
-  // const [studentList, setStudentList] = useState([
-  //   {
-  //     id: nanoid(),
-  //     name: "Huy",
-  //     age: 2,
-  //     className: "Mẫu giáo nhở",
-  //     schoolName: "Mầm non Hải Phú",
-  //   },
-  //   {
-  //     id: nanoid(),
-  //     name: "Viễn",
-  //     age: 2,
-  //     className: "Mẫu giáo nhở",
-  //     schoolName: "Mầm non Hải Phú",
-  //   },
-  //   {
-  //     id: nanoid(),
-  //     name: "Hải",
-  //     age: 2,
-  //     className: "Mẫu giáo nhở",
-  //     schoolName: "Mầm non Hải Phú",
-  //   },
-  //   {
-  //     id: nanoid(),
-  //     name: "Nghĩa",
-  //     age: 2,
-  //     className: "Mẫu giáo nhở",
-  //     schoolName: "Mầm non Hải Phú",
-  //   },
-  // ]);
   const [studentList, setStudentList] = useState(
-    [...Array(20).keys()].map((num) => ({
+    [...Array(100).keys()].map((num) => ({
       id: nanoid(),
       name: "Huy " + num,
       age: 2,
@@ -59,6 +29,7 @@ const Table = () => {
     current: 1,
     limit: 5,
     totalPages: 0,
+    pageLimit: 5
   });
 
   const list = useMemo(() => {
@@ -71,6 +42,7 @@ const Table = () => {
           student.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
       );
     }
+
     const totalPages = Math.ceil(tmp.length / paginationData.limit);
     // paginate
     const startIndex =
@@ -164,6 +136,7 @@ const Table = () => {
             studentList={list}
             getCurrentStudent={getCurrentStudent}
             deleteStudent={deleteStudent}
+            paginationData={paginationData}
           />
           <Pagination
             paginationData={paginationData}

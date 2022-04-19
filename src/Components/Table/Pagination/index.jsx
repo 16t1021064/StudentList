@@ -9,10 +9,40 @@ const Pagination = ({ paginationData, setPaginationData, searchValue }) => {
       current: newPage,
     });
   };
+
   useEffect(() => {
     setPage(1);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue]);
+
+  const pagination = (current, last) => {
+    var delta = 1,
+      left = current - delta,
+      right = current + delta + 1,
+      range = [],
+      rangeWithDots = [],
+      l;
+
+    for (let i = 1; i <= last; i++) {
+      if (i === 1 || i === last || (i >= left && i < right)) {
+        range.push(i);
+      }
+    }
+
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l !== 1) {
+          rangeWithDots.push("...");
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  };
   return (
     <div className="clearfix">
       <ul className="pagination">
@@ -29,24 +59,27 @@ const Pagination = ({ paginationData, setPaginationData, searchValue }) => {
           />
         </li>
 
-        {[...Array(paginationData.totalPages).keys()].map((item) => {
-          return (
-            <li
-              className={`page-item ${
-                paginationData.current === item + 1 ? "active" : ""
-              }`}
-              key={item}
-            >
-              <Button
-                name={item + 1}
-                onClick={() => {
-                  setPage(item + 1);
-                }}
-                color={`default page-link`}
-              />
-            </li>
-          );
-        })}
+        {pagination(paginationData.current, paginationData.totalPages).map(
+          (item, index) => {
+            return (
+              <li
+                className={`page-item ${
+                  paginationData.current === item ? "active" : ""
+                }`}
+                key={index}
+              >
+                <Button
+                  name={item}
+                  onClick={() => {
+                    setPage(item);
+                  }}
+                  color={`default page-link`}
+                  disabled={item === "..."}
+                />
+              </li>
+            );
+          }
+        )}
 
         <li className="page-item">
           <Button

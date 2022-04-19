@@ -1,8 +1,12 @@
 import React from "react";
 import StudentItem from "../StudentItem";
-const StudentList = ({ studentList, getCurrentStudent, deleteStudent }) => {
-  // const [pages] = useState(Math.round(studentList.length / dataLimit));
-  let pageCurrent = 0;
+const StudentList = ({
+  studentList,
+  getCurrentStudent,
+  deleteStudent,
+  paginationData,
+}) => {
+  let current = paginationData.limit*(paginationData.current-1);
   return (
     <table className="table table-striped table-hover">
       <thead>
@@ -17,12 +21,12 @@ const StudentList = ({ studentList, getCurrentStudent, deleteStudent }) => {
       </thead>
       <tbody>
         {studentList.map((studentItem) => {
-          pageCurrent = ++pageCurrent;
+          current = ++current;
           return (
             <StudentItem
               studentItem={studentItem}
               key={studentItem.id}
-              pageCurrent={pageCurrent}
+              currentPage={current}
               getCurrentStudent={getCurrentStudent}
               deleteStudent={deleteStudent}
             />

@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "../../Button";
 
-const StudentItem = ({studentItem, pageCurrent, getCurrentStudent, deleteStudent}) => {
+const StudentItem = ({studentItem, currentPage, getCurrentStudent, deleteStudent}) => {
   return (
     <tr>
-      <td>{pageCurrent}</td>
+      <td>{currentPage}</td>
       <td>{studentItem.name}</td>
       <td>{studentItem.age}</td>
       <td>{studentItem.className}</td>
