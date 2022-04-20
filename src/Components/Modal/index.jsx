@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import Button from "../Button";
-import ErrorMessage from "../ErrorMessage";
+import InputModal from "../InputModal";
 const Modal = ({
   addStudent,
   editStudent,
@@ -12,7 +12,7 @@ const Modal = ({
   currentStudent,
   setCurrentStudent,
 }) => {
-  const [errorMessage, setErrorMessage] = useState([]);
+  const [errorMessage, setErrorMessage] = useState({});
   const nameRef = useRef();
   const ageRef = useRef();
   const classNameRef = useRef();
@@ -22,7 +22,7 @@ const Modal = ({
     e.preventDefault();
 
     if (validateAll()) {
-      if (currentStudent === null||currentStudent===undefined) {
+      if (currentStudent === null || currentStudent === undefined) {
         addStudent({
           id: nanoid(),
           name: nameRef.current.value,
@@ -45,28 +45,27 @@ const Modal = ({
   };
 
   const validateAll = () => {
-    let errors = [];
+    let errors = {};
     if (isEmpty(nameRef.current.value)) {
-      errors.push("•Vui lòng nhập tên!");
+      errors.emptyName = "•Vui lòng nhập tên!";
     }
     if (isEmpty(ageRef.current.value)) {
-      errors.push("•Vui lòng nhập tuổi!");
+      errors.errorAge = "•Vui lòng nhập tuổi!";
     } else if (!isAge(ageRef.current.value)) {
-      errors.push("•Vui lòng nhập tuổi hợp lệ!");
+      errors.errorAge = "•Vui lòng nhập tuổi hợp lệ!";
     }
     if (isEmpty(classNameRef.current.value)) {
-      errors.push("•Vui lòng nhập lớp!");
+      errors.emptyClassName = "•Vui lòng nhập tên lớp!";
     }
     if (isEmpty(schoolNameRef.current.value)) {
-      errors.push("•Vui lòng nhập trường!");
+      errors.emptySchoolName = "•Vui lòng nhập tên trường!";
     }
     setErrorMessage(errors);
-    if (errors.length === 0) {
+    if (Object.keys(errors).length === 0) {
       return true;
     }
     return false;
   };
-
   const isAge = (age) => {
     if (parseInt(age) >= 0) {
       return true;
@@ -99,44 +98,43 @@ const Modal = ({
           <b>{title}</b>
         </h4>
       </div>
-      {errorMessage.map((msg, pos) => (
-        <ErrorMessage key={pos} message={msg}></ErrorMessage>
-      ))}
       <div className="modal-body">
+        <InputModal
+          nameValue={"Tên"}
+          type={"text"}
+          name={"name"}
+          refName={nameRef}
+          errorMessage={errorMessage.emptyName ? errorMessage.emptyName : ""}
+        />
         <div className="form-group">
-          <label>Tên</label>
-          <input
-            type="text"
-            name="name"
-            className="form-control"
-            ref={nameRef}
+          <InputModal
+            nameValue={"Tuổi"}
+            type={"number"}
+            name={"age"}
+            refName={ageRef}
+            errorMessage={errorMessage.errorAge ? errorMessage.errorAge : ""}
           />
         </div>
         <div className="form-group">
-          <label>Tuổi</label>
-          <input
-            type="number"
-            name="age"
-            className="form-control"
-            ref={ageRef}
+          <InputModal
+            nameValue={"Lớp"}
+            type={"text"}
+            name={"classname"}
+            refName={classNameRef}
+            errorMessage={
+              errorMessage.emptyClassName ? errorMessage.emptyClassName : ""
+            }
           />
         </div>
         <div className="form-group">
-          <label>Lớp</label>
-          <input
-            type="text"
-            name="className"
-            className="form-control"
-            ref={classNameRef}
-          />
-        </div>
-        <div className="form-group">
-          <label>Trường</label>
-          <input
-            type="text"
-            name="schoolName"
-            className="form-control"
-            ref={schoolNameRef}
+          <InputModal
+            nameValue={"Trường"}
+            type={"text"}
+            name={"schoolname"}
+            refName={schoolNameRef}
+            errorMessage={
+              errorMessage.emptySchoolName ? errorMessage.emptySchoolName : ""
+            }
           />
         </div>
       </div>
