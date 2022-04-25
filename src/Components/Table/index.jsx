@@ -40,7 +40,7 @@ const Table = () => {
 
   const list = useMemo(() => {
     let tmp = [...studentList];
-
+    console.log(searchValue);
     // search
     if (searchValue) {
       tmp = tmp.filter(
