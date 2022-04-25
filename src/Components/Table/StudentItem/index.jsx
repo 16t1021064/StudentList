@@ -10,8 +10,8 @@ const StudentItem = ({studentItem, currentPage, getCurrentStudent, deleteStudent
       <td>{studentItem.className}</td>
       <td>{studentItem.schoolName}</td>
       <td>
-        <Button color={"warning"} name={"Sửa"} onClick={()=>{getCurrentStudent(studentItem.id)}}/>
-        <Button color={"danger"} name={"Xoá"} onClick={()=>deleteStudent(studentItem.id)}/>
+        <Button color={"warning"} name={"Sửa"} onClick={()=>{getCurrentStudent(studentItem._id)}}/>
+        <Button color={"danger"} name={"Xoá"} onClick={()=>deleteStudent(studentItem._id)}/>
       </td>
     </tr>
   );

@@ -25,7 +25,7 @@ const StudentList = ({
           return (
             <StudentItem
               studentItem={studentItem}
-              key={studentItem.id}
+              key={studentItem._id}
               currentPage={current}
               getCurrentStudent={getCurrentStudent}
               deleteStudent={deleteStudent}

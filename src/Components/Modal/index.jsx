@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -24,7 +23,6 @@ const Modal = ({
     if (validateAll()) {
       if (currentStudent === null || currentStudent === undefined) {
         addStudent({
-          id: nanoid(),
           name: nameRef.current.value,
           age: ageRef.current.value,
           className: classNameRef.current.value,
@@ -32,7 +30,7 @@ const Modal = ({
         });
       } else {
         editStudent({
-          id: currentStudent.id,
+          id: currentStudent._id,
           name: nameRef.current.value,
           age: ageRef.current.value,
           className: classNameRef.current.value,

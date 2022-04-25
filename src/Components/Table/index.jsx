@@ -3,21 +3,22 @@ import Title from "./Title";
 import StudentList from "./StudentList";
 import SearchBox from "./SearchBox";
 import "./index.module.scss";
-import { nanoid } from "nanoid";
 import { useState } from "react";
 import Modal from "../Modal";
 import { useMemo } from "react";
 import Pagination from "./Pagination";
+
+import { useEffect } from "react";
+import { getStudents, addStu, deleteStu } from "../../api/student.service";
+
 const Table = () => {
-  const [studentList, setStudentList] = useState(
-    [...Array(100).keys()].map((num) => ({
-      id: nanoid(),
-      name: "Huy " + num,
-      age: 2,
-      className: "Mẫu giáo nhở",
-      schoolName: "Mầm non Hải Phú",
-    }))
-  );
+  const [studentList, setStudentList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      fetchAPI();
+    })();
+  }, []);
 
   const [modalStatus, setModalStatus] = useState(false);
 
@@ -29,7 +30,7 @@ const Table = () => {
     current: 1,
     limit: 5,
     totalPages: 0,
-    pageLimit: 5
+    pageLimit: 5,
   });
 
   const list = useMemo(() => {
@@ -60,6 +61,11 @@ const Table = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, studentList, paginationData.current]);
 
+  const fetchAPI = async () => {
+    const res = await getStudents();
+    setStudentList(res.data);
+  };
+
   const setFormStatus = (status) => {
     if (status === undefined) {
       setModalStatus(!modalStatus);
@@ -67,9 +73,9 @@ const Table = () => {
       setModalStatus(status);
     }
   };
-
-  const addStudent = (student) => {
-    setStudentList([...studentList, student]);
+  const addStudent = async (student) => {
+    await addStu(student);
+    fetchAPI();
   };
 
   const editStudent = (student) => {
@@ -83,15 +89,9 @@ const Table = () => {
     setStudentList(tmp);
   };
 
-  const deleteStudent = (id) => {
-    const tmp = [...studentList];
-    const index = tmp.findIndex((ele) => ele.id === id);
-    if (index < 0) {
-      return;
-    }
-
-    tmp.splice(index, 1);
-    setStudentList(tmp);
+  const deleteStudent = async (id) => {
+    await deleteStu(id);
+    fetchAPI();
   };
 
   const getCurrentStudent = (id) => {
