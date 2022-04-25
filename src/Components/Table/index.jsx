@@ -9,7 +9,12 @@ import { useMemo } from "react";
 import Pagination from "./Pagination";
 
 import { useEffect } from "react";
-import { getStudents, addStu, deleteStu } from "../../api/student.service";
+import {
+  getStudents,
+  addStu,
+  deleteStu,
+  updateStu,
+} from "../../api/student.service";
 
 const Table = () => {
   const [studentList, setStudentList] = useState([]);
@@ -78,15 +83,14 @@ const Table = () => {
     fetchAPI();
   };
 
-  const editStudent = (student) => {
-    const tmp = [...studentList];
-    const index = tmp.findIndex((ele) => ele.id === student.id);
-    if (index < 0) {
-      return;
-    }
-
-    tmp[index] = student;
-    setStudentList(tmp);
+  const editStudent = async (student) => {
+    await updateStu(student._id, {
+      name: student.name,
+      age: student.age,
+      className: student.className,
+      schoolName: student.schoolName,
+    });
+    fetchAPI();
   };
 
   const deleteStudent = async (id) => {
@@ -95,7 +99,7 @@ const Table = () => {
   };
 
   const getCurrentStudent = (id) => {
-    let student = studentList.find((element) => element.id === id);
+    let student = studentList.find((element) => element._id === id);
     setCurrentStudent(student);
     setFormStatus(true);
   };

@@ -30,7 +30,7 @@ const Modal = ({
         });
       } else {
         editStudent({
-          id: currentStudent._id,
+          _id: currentStudent._id,
           name: nameRef.current.value,
           age: ageRef.current.value,
           className: classNameRef.current.value,
